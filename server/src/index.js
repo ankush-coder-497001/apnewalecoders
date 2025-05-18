@@ -20,6 +20,7 @@ app.use('/api/user', userRoutes)
 
 //db connection
 const mongoose = require('mongoose');
+console.log(process.env.Mongo_URL)
 mongoose.connect(process.env.Mongo_URL).then(() => {
   console.log('mongodb connect bro!')
 }).catch((e) => {
