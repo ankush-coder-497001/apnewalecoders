@@ -20,8 +20,8 @@ app.use('/api/user', userRoutes)
 
 //db connection
 const mongoose = require('mongoose');
-console.log(process.env.Mongo_URL)
-mongoose.connect(process.env.Mongo_URL).then(() => {
+const url = process.env.Mongo_URL || 'mongodb+srv://ankushcoder497001:IYv4JGB7LYHbApBy@cluster0.hqzbadc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+mongoose.connect(url).then(() => {
   console.log('mongodb connect bro!')
 }).catch((e) => {
   console.log(`mongoose connection error ${e}`)
