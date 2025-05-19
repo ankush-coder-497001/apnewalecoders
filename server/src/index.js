@@ -11,6 +11,16 @@ app.use(cors({
 }));
 app.use(express.json());
 
+//db connection
+const mongoose = require('mongoose');
+const url = process.env.Mongo_URL
+mongoose.connect(url).then(() => {
+  console.log('mongodb connect bro!')
+}).catch((e) => {
+  console.log(`mongoose connection error ${e}`)
+})
+
+
 // Routes
 const paymentRoutes = require('./routes/payment.routes');
 const userRoutes = require('./routes/user.routes');
@@ -18,14 +28,6 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/user', userRoutes)
 
 
-//db connection
-const mongoose = require('mongoose');
-const url = process.env.Mongo_URL || 'mongodb+srv://ankushcoder497001:IYv4JGB7LYHbApBy@cluster0.hqzbadc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-mongoose.connect(url).then(() => {
-  console.log('mongodb connect bro!')
-}).catch((e) => {
-  console.log(`mongoose connection error ${e}`)
-})
 
 //start the server
 const PORT = process.env.PORT || 7001

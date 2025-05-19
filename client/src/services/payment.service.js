@@ -8,8 +8,15 @@ const api = axios.create({
 });
 
 export const createOrder = async (amount) => {
+  const token = localStorage.getItem('Apne-wale-coders-token')
   try {
-    const response = await api.post('/payments/create-order', { amount });
+    const response = await api.post('/payments/create-order', { amount },
+      {
+        headers: {
+          Authorization: `bearer ${token}`
+        }
+      }
+    );
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;
@@ -17,13 +24,19 @@ export const createOrder = async (amount) => {
 };
 
 export const verifyPayment = async (paymentData, bookingDetails) => {
+  const token = localStorage.getItem('Apne-wale-coders-token')
   try {
     const response = await api.post('/payments/verify-payment', {
       razorpay_order_id: paymentData.razorpay_order_id,
       razorpay_payment_id: paymentData.razorpay_payment_id,
       razorpay_signature: paymentData.razorpay_signature,
       booking_details: bookingDetails,
-    });
+    }, {
+      headers: {
+        Authorization: `bearer ${token}`
+      }
+    }
+    );
     return response.data;
   } catch (error) {
     throw error.response?.data || error.message;

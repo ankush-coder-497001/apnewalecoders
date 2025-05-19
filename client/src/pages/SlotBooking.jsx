@@ -116,6 +116,7 @@ const SlotBooking = () => {
                         name="file-upload"
                         type="file"
                         className="sr-only"
+                        required
                         onChange={(e) => setFormData({ ...formData, resume: e.target.files[0] })}
                         accept=".pdf,.doc,.docx"
                       />

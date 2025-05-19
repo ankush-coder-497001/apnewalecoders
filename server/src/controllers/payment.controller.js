@@ -1,11 +1,15 @@
 const Razorpay = require('razorpay');
 const Booking = require('../models/booking.model');
 const crypto = require('crypto');
+const { ConfirmPayment } = require('../services/email.svc');
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
+
+// console.log(process.env.RAZORPAY_KEY_ID)
+// console.log(process.env.RAZORPAY_KEY_SECRET)
 
 // Create Razorpay order
 exports.createOrder = async (req, res) => {
@@ -57,7 +61,7 @@ exports.verifyPayment = async (req, res) => {
 
     // Create booking
     const booking = new Booking({
-      userId: req.user._id, // Assuming you have authentication middleware
+      userId: req.user.userId, // Assuming you have authentication middleware
       ...booking_details,
       payment: {
         orderId: razorpay_order_id,
@@ -70,7 +74,7 @@ exports.verifyPayment = async (req, res) => {
     });
 
     await booking.save();
-
+    await ConfirmPayment(booking_details.email, booking_details.name, booking_details.amount, razorpay_order_id,)
     res.json({
       success: true,
       booking,

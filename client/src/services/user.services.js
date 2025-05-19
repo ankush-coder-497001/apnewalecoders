@@ -24,3 +24,17 @@ export const login = async (userData) => {
     throw error.response?.data || error.message
   }
 }
+
+export const GetAllBookings = async () => {
+  const token = localStorage.getItem('Apne-wale-coders-token')
+  try {
+    const res = await api.get('/user/getAllBookings', {
+      headers: {
+        Authorization: `bearer ${token}`
+      }
+    });
+    return res.data
+  } catch (error) {
+    throw error?.response.message || error.message
+  }
+}

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import StepProgress from '../components/StepProgress';
 import { createOrder, verifyPayment } from '../services/payment.service'
+import toast from 'react-hot-toast';
 const steps = [
   { name: 'Personal Info', status: 'complete' },
   { name: 'Date & Time', status: 'complete' },
@@ -70,7 +71,7 @@ const Payment = () => {
             }
           } catch (error) {
             console.error('Payment verification failed:', error);
-            alert('Payment verification failed. Please contact support.');
+            toast.error('Payment verification failed. Please contact support.');
           }
         },
         prefill: {
@@ -91,8 +92,8 @@ const Payment = () => {
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error) {
-      console.error('Payment initialization failed:', error);
-      alert('Could not initialize payment. Please try again.');
+      console.log('Payment initialization failed:', error);
+      toast.error('Could not initialize payment. Please try again.');
       setLoading(false);
     }
   };

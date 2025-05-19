@@ -14,10 +14,11 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await login(formData);
+      console.log(res)
       toast.success(res.message || "Login successful!");
-      localStorage.setItem('Apne-wale-coders-token', res.token);
-      localStorage.setItem('user', JSON.stringify(res.user));
-      navigate('/slot-booking');
+      localStorage.setItem('Apne-wale-coders-token', res.data.token);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+      navigate('/dashboard');
     } catch (err) {
       const errorMessage = typeof err === 'string' ? err : err.message || "Login failed!";
       toast.error(errorMessage);

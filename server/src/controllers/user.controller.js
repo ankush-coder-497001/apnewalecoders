@@ -1,6 +1,7 @@
 const UserModel = require('../models/user.model')
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const bookingModel = require('../models/booking.model');
 const UserController = {
   register: async (req, res) => {
     const { name, email, password } = req.body;
@@ -78,6 +79,18 @@ const UserController = {
 
     } catch (error) {
       return res.status(500).json({ message: error.message });
+    }
+  },
+  GetAllBookings: async (req, res) => {
+    const { userId } = req.user;
+    try {
+      const Bookings = await bookingModel.find({ userId });
+      if (!Bookings) {
+        return res.status(404).json({ message: 'No Bookings Found' })
+      }
+      return res.status(200).json({ message: 'Bookings Found !', Bookings });
+    } catch (error) {
+      return res.status(500).json({ message: error.message })
     }
   }
 
